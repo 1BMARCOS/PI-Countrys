@@ -10,19 +10,20 @@ module.exports = (sequelize) => {
       allowNull: false, //no permito que esté vacío
       primaryKey: true,
     },
-    Nombre: {
+    name: {
       type: DataTypes.STRING,
       allowNull: false,
+      
     },
-    Dificultad: {
+    dificulty: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    Duración: {
+    duration: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    Temporada: {
+    season: {
       type: DataTypes.STRING,
       allowNull: false
     },

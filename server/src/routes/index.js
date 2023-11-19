@@ -10,7 +10,7 @@ const router = Router();
 router.use ('/countries', countrieRouter)
 
 
-router.use ('/countries', postRouter)
+router.use ('/activities', postRouter)
 
 
 module.exports = router; 

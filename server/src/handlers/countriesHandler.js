@@ -1,39 +1,48 @@
 
-const {createActivity, getCountryById} = require ('../controllers/countriesControllers')
+const {getCountryById, getAllCountries, getAllActivities,createActivity } = require('../controllers/countriesControllers')
+const {Country, Activity} = require('../db')
 
 
 
 
 
+// Traer todos los countries o por nombre.
 
-const getAllCountriesHandler = (req, res) => {
-    
-//Obtiene un arreglo de objetos, donde cada objeto es un país con toda su información.
+const getAllCountriesHandler = async (req, res) => {
+    try {
+        const {name} = req.query
+        if (name){
+            const oneCountry = await Country.findOne({where: {name}})
+            if (oneCountry){
+                return res.status(200).json({status:true, oneCountry})
+            }else{
+                return res.status(200).json({status: false, message: 'No se pudo traer el nombre'})
+            }
+        }
+        const countries = await getAllCountries()
 
-const { name } = req.query;
-    
-    if (name) res.send (`Quiero buscar los countries que se llamen: ${name}`)
-    
-    else res.send (`Quiero todos los usuarios`)
+        if (countries) {
 
-}
-const postActivity = async (req, res) => {
-    try{
-        const {Nombre, Dificultad, Duración, Temporada}= req.body;
-        const newCountry = await createActivity(Nombre, Dificultad, Duración, Temporada)
-        res.status(201).json (newCountry)
+            return res.status(200).json({ status: true, results: countries })
+
+        } else {
+            return res.status(200).json({ status: false, message: 'No se pudo obtener los countries' })
+        }
     } catch (error) {
-        res.status (404).json ({error: error.message})
- }
+        res.status(500).json({ status: false, message: error.message })
+    }
 }
 
+
+
+// Traer pais por ID de 3 LETRAS
 const getCountrieIdHandler = async (req, res) => {
     const { id } = req.params;
-
+    
     const source = isNaN(id) ? "bd" : "api"
-
+    
     try {
-        const country = await getCountryById (id, source);
+        const country = await getCountryById(id, source);
         
         res.status(200).json(country);
     } catch (error) {
@@ -44,20 +53,44 @@ const getCountrieIdHandler = async (req, res) => {
 // El país es recibido por parámetro (ID de tres letras del país).
 // Tiene que incluir los datos de las actividades turísticas asociadas a este país.
 
+//crear Actividad
+const postActivity = async (req, res) => {
+    try {
+        const { name, dificulty, duration, season, } = req.body;
+        const newActivity = await createActivity(name, dificulty, duration, season)
+        res.status(201).json(newActivity)
+    } catch (error) {
+        res.status(404).json({ error: error.message })
+    }
+}
 
-const getCountrieActivitiesHandler = (req, res) => {
-    res.status (200).send ('Estoy en getActivities')
 
-// Esta ruta recibirá todos los datos necesarios para crear una actividad turística y relacionarla con los países solicitados.
-// Toda la información debe ser recibida por body.
-// Debe crear la actividad turística en la base de datos, y esta debe estar relacionada con los países indicados (al menos uno).
+// Traer actividades en un objeto.
+const getAllCountriesActivities = async (req, res) => {
+    try {
+        const activities = await getAllActivities()
+        if (activities) {
+            return res.status(200).json({ status: true, results: activities })
+
+        } else {
+            return res.status(200).json({ status: false, message: 'No se pudieron obtener las actividades' })
+        }
+    } catch (error) {
+        res.status(500).json({ status: false, message: error.message })
+    }
 }
 
 
 
+//Obtiene un arreglo de objetos
+//Donde cada objeto es una actividad turística.
+
+
+
+
 module.exports = {
-        getAllCountriesHandler,
-        getCountrieIdHandler,
-        getCountrieActivitiesHandler,
-        postActivity,
-      };
+    getAllCountriesHandler,
+    getCountrieIdHandler,
+    getAllCountriesActivities,
+    postActivity,
+};
