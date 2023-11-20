@@ -1,7 +1,7 @@
 const { Router } = require("express");
 
-const countrieRouter = require ('./countryRouter')
-const postRouter = require ('./postRouter')
+const countrieRouter = require ('../routes/countryRouter')
+const postRouter = require ('../routes/postRouter')
 
 
 const router = Router();

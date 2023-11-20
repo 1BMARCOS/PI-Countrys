@@ -12,12 +12,12 @@ module.exports = (sequelize) => {
     },
     name: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
       
     },
-    dificulty: {
+    difficulty: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: true,
     },
     duration: {
       type: DataTypes.INTEGER,

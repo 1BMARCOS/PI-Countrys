@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const {postActivity, getAllCountriesActivities} = require ('../handlers/countriesHandler')
+const {postActivity, getAllCountriesActivities} = require ('../controllers/activitiesControllers')
 const postRouter = Router ();
 
 postRouter.post ('/', postActivity)

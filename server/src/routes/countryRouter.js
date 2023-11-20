@@ -14,8 +14,6 @@ countrieRouter.get('/', getAllCountriesHandler);
 
 countrieRouter.get('/:id', getCountrieIdHandler);
 
-// countrieRouter.get('/activities', getAllCountriesActivities)
-
 countrieRouter.get('/loadDatabaseCountries', loadCountries)
 
 

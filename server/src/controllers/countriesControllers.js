@@ -1,7 +1,4 @@
   const {Country, Activity} = require ('../db')
-  // Crear Actividad.
-  const createActivity = async (name, dificulty, duration, season) =>
-  await Activity.create ({name, dificulty, duration, season})
 
   // Traer countries por ID
   const getCountryById = async (id, source) => {
@@ -23,19 +20,9 @@
       return [...dbCountries]
   };
 
-
-const getAllActivities = async () => {
-  // buscar todos las actividades en la db
-
-  const dbActivities = await Activity.findAll ()
-
-    return dbActivities
-};
   module.exports = {
-  createActivity,
   getCountryById,
   getAllCountries,
-  getAllActivities
   }
 
 
